@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile(server)
+    ports:
+      - "2000:65432"
+    depends_on:
+      - mongo
+      - redis
+
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+
+  redis:
+    image: redis

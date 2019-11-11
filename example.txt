@@ -1,0 +1,26 @@
+curl -X POST http://localhost:2000/put -i -d 'key="hello"&value=world'
+HTTP/1.0 200 OK
+
+curl -X GET 'http://localhost:2000/get?key="hello"' 
+{
+  "from-cache": false, 
+  "value": "world"
+}
+
+curl -X POST http://localhost:2000/put -i -d 'key="hello"&value=UNEXPECTED'
+HTTP/1.0 200 OK
+
+curl -X GET 'http://localhost:2000/get?key="hello"'
+{
+  "from-cache": true, 
+  "value": "world"
+}
+
+curl -X GET 'http://localhost:2000/get?key="hello"&no-cache=false'
+{
+  "from-cache": false, 
+  "value": "UNEXPECTED"
+}
+
+curl -i -X DELETE 'http://localhost:2000/delete?key="hello"'
+HTTP/1.0 200 OK
