@@ -34,6 +34,7 @@ storage = db.storage
 @app.route('/put', methods=['POST', 'PUT'], endpoint="put")
 def put():
     response = {}
+    app.logger.debug('put for key')
     storage.find_one_and_update(
         {"key": request.values.get("key")}, {"$set": {"key": request.values.get("key"), "value": request.values.get("value")}}, upsert=True)
     return response, 200
@@ -73,12 +74,13 @@ def get():
 
 
 @app.route('/delete', methods=['DELETE'], endpoint="delete")
-def get():
+def delete():
     response = {}
     response_code = 200
     deleted_count = storage.delete_one({"key": request.values.get("key")}).deleted_count
+    app.logger.debug('delete for key')
     if not deleted_count:
-        response_code = 404
+        response_code = 204
     return response, response_code
 
 

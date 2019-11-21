@@ -40,8 +40,11 @@ class TestCase(unittest.TestCase):
 
     def test_7_DeleteNonExistKey(self):
         response = requests.delete('http://localhost:2000/delete?key="hello"')
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 204)
 
+    def test_8_GetNonExistKey(self):
+        response = requests.get('http://localhost:2000/get?key="unknown"')
+        self.assertEqual(response.status_code, 404)
 
 if __name__ == '__main__':
     unittest.main()
