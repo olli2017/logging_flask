@@ -15,8 +15,9 @@ before_install:
 script:
   - docker-compose build
   - docker-compose up
+  - python3 -r requirements.txt TestCase.py
   #  - make test
 #  - curl -X POST http://localhost:2000/put -i -d 'key="hello"&value=world'
 
 after_script:
-  - make stop
+  - docker-compose down
