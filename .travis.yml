@@ -18,7 +18,10 @@ install:
 script:
   - docker-compose build
   - docker-compose up -d
+  - sleep 15s
   - python TestCase.py
+  #  - make test
+#  - curl -X POST http://localhost:2000/put -i -d 'key="hello"&value=world'
 
 after_script:
   - docker-compose down
