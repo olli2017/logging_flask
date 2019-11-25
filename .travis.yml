@@ -12,13 +12,13 @@ before_install:
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
 
+install:
+  - pip install requests
+
 script:
   - docker-compose build
   - docker-compose up -d
-  - sleep 10s
-  - python3 -r requirements.txt TestCase.py
-  #  - make test
-#  - curl -X POST http://localhost:2000/put -i -d 'key="hello"&value=world'
+  - python TestCase.py
 
 after_script:
   - docker-compose down
