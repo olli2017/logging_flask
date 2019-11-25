@@ -12,9 +12,6 @@ before_install:
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
 
-install:
-  - pip3 install requests
-
 script:
   - make test
 #  - curl -X POST http://localhost:2000/put -i -d 'key="hello"&value=world'
