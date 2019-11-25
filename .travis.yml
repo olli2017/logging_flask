@@ -12,9 +12,17 @@ before_install:
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
 
-before_script:
+install:
+  # Core testing install
+  - sudo apt-get update && sudo apt-get --assume-yes install commandbox
+  - box install
+  - box server start
+  # Docker CFML Server Tests
   - docker-compose build
-  - docker-compose up
+  - docker-compose up -d
+
+before_script:
+  - curl -X POST http://localhost:2000/put -i -d 'key="hello"&value=world'
 
 script:
   - python TestCase.py
