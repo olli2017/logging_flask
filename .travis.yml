@@ -15,11 +15,6 @@ before_install:
   - sudo mv docker-compose /usr/local/bin
 
 install:
-  # Core testing install
-  - sudo apt-get update && sudo apt-get --assume-yes install commandbox
-  - box install
-  - box server start
-  # Docker CFML Server Tests
   - docker-compose build
   - docker-compose up -d
 
