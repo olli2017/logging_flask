@@ -13,7 +13,9 @@ before_install:
   - sudo mv docker-compose /usr/local/bin
 
 script:
-  - make test
+  - docker-compose build
+  - docker-compose up
+  #  - make test
 #  - curl -X POST http://localhost:2000/put -i -d 'key="hello"&value=world'
 
 after_script:
