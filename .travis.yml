@@ -20,6 +20,10 @@ script:
   - docker-compose up -d
   - sleep 15s
   - python TestCase.py
+  - make image
 
-after_script:
-  - docker-compose down
+after_success:
+  - if [[ "$TRAVIS_BRANCH" == "master" ]]; then
+      docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD ;
+      make push-image ;
+    fi
