@@ -24,4 +24,5 @@ script:
 after_success:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker build -t logging_flask .
+  - docker tag logging_flask olli2017/logging_flask
   - docker push olli2017/logging_flask
