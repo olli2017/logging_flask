@@ -4,7 +4,7 @@ services:
   server:
     build:
       context: .
-      dockerfile: Dockerfile(server)
+      dockerfile: Dockerfile
     ports:
       - "2000:65432"
     depends_on:
