@@ -6,5 +6,4 @@ image:
 push-image:
 	docker push $(IMAGE)
 
-
 .PHONY: image push-image
