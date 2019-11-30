@@ -20,10 +20,10 @@ script:
   - docker-compose up -d
   - sleep 15s
   - python TestCase.py
-  - make image
+  - docker build -t olli2017/logging_flask .
 
 after_success:
   - if [[ "$TRAVIS_BRANCH" == "master" ]]; then
       docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD ;
-      make push-image ;
+      docker push olli2017/logging_flask ;
     fi
