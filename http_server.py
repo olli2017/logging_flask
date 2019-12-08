@@ -2,6 +2,8 @@ import redis
 from pymongo import MongoClient
 from flask import Flask, request
 from logging.config import dictConfig
+from flask_httpauth import HTTPBasicAuth
+from werkzeug.security import generate_password_hash, check_password_hash
 
 dictConfig({
     'version': 1,
@@ -24,6 +26,13 @@ dictConfig({
 # logging.config.fileConfig(log_file_path)
 
 app = Flask(__name__)
+auth = HTTPBasicAuth()
+
+users = {
+    "aydar": generate_password_hash("user"),
+    "ravil": generate_password_hash("admin")
+}
+
 
 cache = redis.Redis(host='redis', port=6379)
 
@@ -31,7 +40,14 @@ db_client = MongoClient('mongodb://root:password@mongo')
 db = db_client.server_storage
 storage = db.storage
 
+@auth.verify_password
+def verify_password(username, password):
+    if username in users:
+        return check_password_hash(users.get(username), password)
+    return False
+
 @app.route('/put', methods=['POST', 'PUT'], endpoint="put")
+@auth.login_required
 def put():
     response = {}
     app.logger.debug('put for key')
@@ -41,6 +57,7 @@ def put():
 
 
 @app.route('/get', methods=['GET'], endpoint="get")
+@auth.login_required
 def get():
     response = {
         'from-cache': False
@@ -74,6 +91,7 @@ def get():
 
 
 @app.route('/delete', methods=['DELETE'], endpoint="delete")
+@auth.login_required
 def delete():
     response = {}
     response_code = 200
